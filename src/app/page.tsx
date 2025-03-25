@@ -66,17 +66,17 @@ export default function Home() {
   };
 
   return (
-    <div className="max-w-md w-full mx-auto py-8 px-4">
-      <h1 className="text-xl font-semibold text-center mb-6">YouTube API Test</h1>
-      <div className="flex items-center mb-6">
+    <div className="max-w-md w-full mx-auto py-8 px-4 md:px-0">
+      <div className="flex justify-center mb-8"><img src="/logoo.png" alt='Converse Box' className="h-8" /></div>
+      <div className="flex items-center">
         <input
-          className="px-4 py-2 w-full border-t border-b border-l border-gray-200 rounded-l-md h-10 outline-none"
+          className="px-4 py-2 w-full border-t border-b border-l border-gray-200 rounded-l-full h-10 outline-none placeholder:text-gray-400"
           placeholder="Enter Video ID"
           value={videoId}
           onChange={handleVideoIdChange}
         />
         <button
-          className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-r-md h-10"
+          className="px-4 py-2 bg-violet-600 text-white font-semibold rounded-r-full h-10"
           onClick={fetchVideoData}
         >
           Confirm
@@ -96,13 +96,13 @@ export default function Home() {
           {error && <p className="text-red-400 text-sm mb-2">{error}</p>}
 
             <button
-              className="mb-6 px-4 py-2 rounded-md bg-blue-50 text-blue-600 font-semibold w-full"
+              className="mb-6 px-4 py-2 rounded-full bg-violet-50 text-violet-600 font-semibold w-full"
               onClick={handleGetSubtitles}
               disabled={isLoading}
             >
               {isLoading ? 'Downloading...' : 'Get subtitles for this video'}
             </button>
-            <p className="text-gray-600 text-sm whitespace-pre-line">{videoData.description}</p>
+            <p className="text-gray-600 text-sm whitespace-pre-line max-h-32 overflow-y-auto">{videoData.description}</p>
             <div className="mt-4 text-gray-400 text-sm">
               <p>Published on {new Date(videoData.publishedAt).toLocaleDateString()}</p>
             </div>

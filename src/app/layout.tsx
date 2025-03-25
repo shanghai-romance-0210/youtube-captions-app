@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "YouTube API Test",
+  title: "mitoujr",
 };
 
 export default function RootLayout({
