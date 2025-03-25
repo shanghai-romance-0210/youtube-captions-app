@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link';
 import { useState } from 'react';
 
 export default function Home() {
@@ -8,6 +7,7 @@ export default function Home() {
   const [videoData, setVideoData] = useState<any>(null);
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [subtitles, setSubtitles] = useState<string | null>(null); // State to store the subtitles
 
   const handleVideoIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setVideoId(event.target.value);
@@ -50,6 +50,7 @@ export default function Home() {
 
       if (data.error) {
         setError(data.error);
+        setSubtitles(null); // Clear previous subtitles if any
       } else {
         // Create a blob from the subtitle data and trigger a download
         const subtitleBlob = new Blob([data.subtitles], { type: 'application/octet-stream' });
@@ -57,6 +58,9 @@ export default function Home() {
         link.href = URL.createObjectURL(subtitleBlob);
         link.download = `${videoId}-subtitles.srt`; // Change extension if needed
         link.click();
+        
+        // Store the subtitle text for display in a div
+        setSubtitles(data.subtitles);
       }
     } catch (err) {
       setError('An error occurred while fetching subtitles.');
@@ -93,10 +97,10 @@ export default function Home() {
           </div>
 
           <div className="p-6">
-          {error && <p className="text-red-400 text-sm mb-2">{error}</p>}
+            {error && <p className="text-red-400 text-sm mb-2">{error}</p>}
 
             <button
-              className="mb-6 px-4 py-2 rounded-full bg-violet-50 text-violet-600 font-semibold w-full"
+              className="mb-6 px-4 py-2 rounded-md bg-violet-50 text-violet-600 font-semibold w-full"
               onClick={handleGetSubtitles}
               disabled={isLoading}
             >
@@ -107,6 +111,13 @@ export default function Home() {
               <p>Published on {new Date(videoData.publishedAt).toLocaleDateString()}</p>
             </div>
           </div>
+        </div>
+      )}
+
+      {subtitles && (
+        <div className="bg-white shadow-md rounded-lg overflow-hidden mt-8 p-6">
+          <h3 className="text-lg font-semibold mb-4">Downloaded Subtitles</h3>
+          <pre className="whitespace-pre-line text-sm text-gray-600 max-h-64 overflow-y-auto">{subtitles}</pre>
         </div>
       )}
     </div>
